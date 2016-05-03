@@ -27,7 +27,7 @@ public class rean : MonoBehaviour
     void Start()
     {
         PaiName();
-        LiPai();
+       
     }
 
     void PaiName()
@@ -55,6 +55,7 @@ public class rean : MonoBehaviour
     {
         print("抽牌");
         i = 1;
+        //第一付牌paijihe1中按1234顺序一个个抽取放入各自的列表，并放入paijihe2中。第一付牌抽52张
         for (int z = 0; z < 54 - 2; z++)
         {
             int r1 = Random.Range(0, paijihe1.Count);
@@ -85,7 +86,7 @@ public class rean : MonoBehaviour
 
             i++;
         }
-
+        //第一付牌最后余下的2张放入底牌中，
         for (int z = 0; z < 2; z++)
         {
             paijihe2.Add(paijihe1[z]);
@@ -95,7 +96,7 @@ public class rean : MonoBehaviour
         paijihe1.Clear();
 
 
-
+        //进行第二付牌抽取，一共抽取48张
         for (int z = 0; z < 54 - 6; z++)
         {
             int r1 = Random.Range(0, paijihe2.Count);
@@ -126,6 +127,8 @@ public class rean : MonoBehaviour
 
             i++;
         }
+
+        //最后余下的6张牌放入底牌，
         for (int z = 0; z < 6; z++)
         {
             paijihe1.Add(paijihe2[z]);
@@ -139,19 +142,26 @@ public class rean : MonoBehaviour
 
     }
 
-    void LiPai()
+   public void PaiXu()
     {
 
-        //LIST SORT 多重排序
-        play1list.Sort(delegate(pai x, pai y)
+        //LIST SORT 多重排序,按王，分类，编号
+       play1list.Sort(delegate(pai x, pai y)
         {
             int a = y.wangpai.CompareTo(x.wangpai);
             if (a==0)
             {
-                a = y.bianhao.CompareTo(x.bianhao);
+                a = y.fenlei.CompareTo(x.fenlei);
+                if (a==0)
+                {
+                    a = y.bianhao.CompareTo(x.bianhao);
+                }
             }
             return a;
         });
-        
+    }
+
+    void JiaoZhu() { 
+    
     }
 }
