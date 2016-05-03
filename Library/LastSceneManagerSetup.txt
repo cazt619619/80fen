@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/80fen.unity
+  isLoaded: 1
+  isActive: 1
