@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class gamemanage : MonoBehaviour
 {
@@ -14,58 +15,89 @@ public class gamemanage : MonoBehaviour
 
     public GameObject paizhengman;
 
+    public Text daojishi;
+
     public Transform[] dipaidian;
 
     private List<GameObject> play1pai = new List<GameObject>();
 
 
-    private bool kaiguan = false;
+    private bool kaiguan1 = false;
+    private bool kaiguan2 = false;
+    private bool kaiguan3 = false;
+
     private int num = 0;
     private int num1 = 0;
     private int num2 = 0;
-    private int num3 = 0;
+    int numtime = 0;
+    int timer = 10;
+
     // Use this for initialization
     void Start()
     {
-
+        daojishi.GetComponent<Text>().enabled = false;
+       
     }
 
     //Update is called once per frame
     void Update()
     {
 
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (kaiguan1 == true)
         {
-            kaiguan = true;
-        }
-        if (kaiguan == true)
-        {
-
             num++;
             if (num % 30 == 0)
             {
                 QuPai();
-                //Play1FaPai();
-                // Play2FaPai();
-                // Play3FaPai();
-                // Play4FaPai();
 
                 num1++;
-                if (num1 == 25)
+                if (num1 == rean._intance.play1list.Count)
                 {
-                    num2 = 0;
-                    LiPai();
-                    num3++;
-                    if (num3==25)
-                    {
-                        num2 = 0;
-                       kaiguan = false; 
-                    }
-                    
+                    kaiguan1 = false;
+                    kaiguan2 = true;
+                    num = num1 = 0;
+                    daojishi.GetComponent<Text>().enabled = true;
                 }
             }
         }
+
+        if (kaiguan2 == true)
+        {
+            JiShiQi();
+            if (timer == 0)
+            {
+                QinLiZuoMian();
+                daojishi.GetComponent<Text>().enabled = false;
+                kaiguan2 = false;
+                kaiguan3 = true;
+            }
+        }
+
+        if (kaiguan3 == true)
+        {
+            num++;
+            if (num % 30 == 0)
+            {
+                LiPai();
+
+                num1++;
+
+                if (num1 == rean._intance.play1list.Count)
+                {
+                   
+                    kaiguan3 = false;
+                }
+            }
+
+        }
+    }
+
+    public void KaiShi()
+    {
+        kaiguan1 = true;
+        GameObject.Find("kaishi").SetActive(false);
+       
+
     }
 
     void QuPai()
@@ -76,7 +108,7 @@ public class gamemanage : MonoBehaviour
 
         Vector3 t1 = play1zm.position;
 
-        FaPai(t0,t1);
+        FaPai(t0, t1);
 
         play1zm.position = play1zm.position + new Vector3(0.3f, 0, -0.01f);
 
@@ -92,7 +124,7 @@ public class gamemanage : MonoBehaviour
 
         peimian.transform.SetParent(p1);
 
-        iTween.MoveTo(peimian, t1, 0.5f);
+        iTween.MoveTo(peimian, t1, 0.3f);
 
         play1pai.Add(peimian);
 
@@ -100,16 +132,18 @@ public class gamemanage : MonoBehaviour
 
     void LiPai()
     {
-        print("num2 : "+num2);
+        num2--;
+
+        print("num2 : " + num2);
+
+        if (num2 < 0)
+        {
+            num2 = 0;
+        }
 
         rean._intance.PaiXu();
 
-        foreach (var item in play1pai)
-        {
-            Destroy(item);
-        }
-
-        Vector3 t0 = new Vector3(0, 0, 0);
+        Vector3 t0 = play1zm.position;
 
         paizhengman.GetComponent<SpriteRenderer>().sprite = rean._intance.play1list[num2].name;
 
@@ -117,98 +151,46 @@ public class gamemanage : MonoBehaviour
 
         FaPai(t0, t1);
 
-        play1zm.position = play1zm.position - new Vector3(0.6f, 0, 0.01f);
-
-        num2++;
-
-
+        play1zm.position = play1zm.position - new Vector3(0.3f, 0, -0.01f);
 
     }
 
 
-
-
-
-    void Play1FaPai()
+    void QinLiZuoMian()
     {
-        //牌从中心点向play1移动
-        print(111);
-        Transform tempweizhi = paibei.transform;
-        Transform play = GameObject.Find("play1").transform;
 
-        //拿取算好的牌//给play1发牌
-        paizhengman.GetComponent<SpriteRenderer>().sprite = rean._intance.play1list[num2].name;
 
-        GameObject peimian = GameObject.Instantiate(paizhengman, tempweizhi.position, tempweizhi.rotation) as GameObject;
-
-        iTween.MoveTo(peimian, play1zm.position, 0.5f);
-
-        peimian.transform.SetParent(play);
-
-        play1pai.Add(peimian);
-
-        num2++;
-
-        //第一张牌不动，其余牌向后移动
-
-        for (int c = 1; c < play1pai.Count; c++)
+        foreach (var item in play1pai)
         {
-            iTween.MoveTo(play1pai[c], play1pai[c - 1].transform.position + new Vector3(0.3f, 0, -c / 100f), 0.1f);
+            Destroy(item);
         }
 
-    }
-    void Play2FaPai()
-    {
-
-        Transform tempweizhi = paibei.transform;
-        Transform play = GameObject.Find("play2").transform;
-        //给play2发牌
-        GameObject peimian = GameObject.Instantiate(paibei, tempweizhi.position, tempweizhi.rotation) as GameObject;
-        iTween.MoveTo(peimian, play2zm.position, 0.5f);
-
-        peimian.transform.SetParent(play);
-    }
-    void Play3FaPai()
-    {
-
-        Transform tempweizhi = paibei.transform;
-        Transform play = GameObject.Find("play3").transform;
-        //给play3发牌
-        GameObject peimian = GameObject.Instantiate(paibei, tempweizhi.position, tempweizhi.rotation) as GameObject;
-        iTween.MoveTo(peimian, play3zm.position, 0.5f);
-
-        peimian.transform.SetParent(play);
-    }
-    void Play4FaPai()
-    {
-
-        Transform tempweizhi = paibei.transform;
-        Transform play = GameObject.Find("play4").transform;
-        //给play4发牌
-        GameObject peimian = GameObject.Instantiate(paibei, tempweizhi.position, tempweizhi.rotation) as GameObject;
-        iTween.MoveTo(peimian, play4zm.position, 0.5f);
-
-        peimian.transform.SetParent(play);
+        Destroy(GameObject.Find("liudi"));
     }
 
     void LiuDi()
     {
-        print(1111);
-        Transform liudi = GameObject.Find("liudi").transform;
 
+        Transform liudi = GameObject.Find("liudi").transform;
 
         for (int i = 0; i < dipaidian.Length; i++)
         {
             paizhengman.GetComponent<SpriteRenderer>().sprite = rean._intance.dipailist[i].name;
             GameObject dipai = GameObject.Instantiate(paizhengman, dipaidian[i].position, Quaternion.identity) as GameObject;
             dipai.transform.SetParent(liudi);
-
         }
+    }
 
-
-
-
-
+    void JiShiQi()
+    {
+        numtime++;
+        paibei.SetActive(false);
+        if (numtime % 60 == 0)
+        {
+            timer--;
+            daojishi.GetComponent<Text>().text = timer.ToString();
+            LiuDi();
+        }
 
     }
 }
