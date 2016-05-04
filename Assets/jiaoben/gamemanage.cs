@@ -96,7 +96,10 @@ public class gamemanage : MonoBehaviour
     {
         kaiguan1 = true;
         GameObject.Find("kaishi").SetActive(false);
-       
+       //transform.Find("kaishi").SetActive(true);
+// GameObject root = GameObject.Find(“GameObject”);
+//GameObject map =  root.transform.Find(“map”).gameObject; 
+//map.SetActive(true);
 
     }
 
