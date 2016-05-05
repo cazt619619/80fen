@@ -17,6 +17,8 @@ public class rean : MonoBehaviour
     public List<pai> play4list = new List<pai>();
     public List<pai> dipailist = new List<pai>();
 
+    public int dajihao = 2;
+
     int i = 0;
     int x = 0;
     void Awake()
@@ -48,6 +50,7 @@ public class rean : MonoBehaviour
             i++;
         }
         print("取完");
+        JiaoZhuPai(dajihao);
         ChouPai();
     }
 
@@ -161,7 +164,12 @@ public class rean : MonoBehaviour
         });
     }
 
-    void JiaoZhu() { 
-    
+    void JiaoZhuPai(int num ) {
+        
+        paijihe1[num-2].wangpai = 1;
+        paijihe1[num+13 - 2].wangpai = 1;
+        paijihe1[num+13+13 - 2].wangpai = 1;
+        paijihe1[num+13+13+13 - 2].wangpai = 1;
+
     }
 }

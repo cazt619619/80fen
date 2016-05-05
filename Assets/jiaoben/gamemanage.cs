@@ -15,7 +15,10 @@ public class gamemanage : MonoBehaviour
 
     public GameObject paizhengman;
 
+    public GameObject root;
+
     public Text daojishi;
+    public Text daji;
 
     public Transform[] dipaidian;
 
@@ -29,14 +32,19 @@ public class gamemanage : MonoBehaviour
     private int num = 0;
     private int num1 = 0;
     private int num2 = 0;
-    int numtime = 0;
-    int timer = 10;
+    private int numtime = 0;
+    private int timer = 10;
+
 
     // Use this for initialization
     void Start()
     {
         daojishi.GetComponent<Text>().enabled = false;
-       
+
+        daji.GetComponent<Text>().text = rean._intance.dajihao.ToString();
+
+        root = GameObject.Find("Canvas");
+
     }
 
     //Update is called once per frame
@@ -84,7 +92,7 @@ public class gamemanage : MonoBehaviour
 
                 if (num1 == rean._intance.play1list.Count)
                 {
-                   
+
                     kaiguan3 = false;
                 }
             }
@@ -94,12 +102,16 @@ public class gamemanage : MonoBehaviour
 
     public void KaiShi()
     {
+
         kaiguan1 = true;
+
         GameObject.Find("kaishi").SetActive(false);
-       //transform.Find("kaishi").SetActive(true);
-// GameObject root = GameObject.Find(“GameObject”);
-//GameObject map =  root.transform.Find(“map”).gameObject; 
-//map.SetActive(true);
+        //一个奇怪的显示方式
+        //GameObject root = GameObject.Find("Canvas");
+        GameObject map = root.transform.Find("chupai").gameObject;
+        map.SetActive(true);
+
+
 
     }
 
@@ -109,6 +121,11 @@ public class gamemanage : MonoBehaviour
 
         paizhengman.GetComponent<SpriteRenderer>().sprite = rean._intance.play1list[num2].name;
 
+        if (rean._intance.play1list[num2].wangpai == 1)
+        {
+            JiaoZhuButton(rean._intance.play1list[num2].fenlei);
+        }
+
         Vector3 t1 = play1zm.position;
 
         FaPai(t0, t1);
@@ -116,6 +133,7 @@ public class gamemanage : MonoBehaviour
         play1zm.position = play1zm.position + new Vector3(0.3f, 0, -0.01f);
 
         num2++;
+
 
     }
 
@@ -183,6 +201,40 @@ public class gamemanage : MonoBehaviour
             dipai.transform.SetParent(liudi);
         }
     }
+
+    void JiaoZhuButton(int num)
+    {
+        switch (num)
+        {
+            case 1:
+                GameObject t1 = root.transform.Find("fangkuai").gameObject;
+                t1.SetActive(true);
+                break;
+            case 2:
+                GameObject t2 = root.transform.Find("caohua").gameObject;
+                t2.SetActive(true);
+                break;
+            case 3:
+                GameObject t3 = root.transform.Find("hongtao").gameObject;
+                t3.SetActive(true);
+                break;
+            case 4:
+                GameObject t4 = root.transform.Find("heitao").gameObject;
+                t4.SetActive(true);
+                break;
+            case 5:
+                GameObject t5 = root.transform.Find("wujiang").gameObject;
+                t5.SetActive(true);
+                break;
+        }
+    }
+
+
+    public void FangKuaiButton() { 
+    
+    }
+
+
 
     void JiShiQi()
     {
