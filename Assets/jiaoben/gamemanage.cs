@@ -15,7 +15,15 @@ public class gamemanage : MonoBehaviour
 
     public GameObject paizhengman;
 
-    public GameObject root;
+    public GameObject zhujiaopai;
+
+    private GameObject root;
+    private GameObject t1;
+    private GameObject t2;
+    private GameObject t3;
+    private GameObject t4;
+    private GameObject t5;
+
 
     public Text daojishi;
     public Text daji;
@@ -35,6 +43,7 @@ public class gamemanage : MonoBehaviour
     private int numtime = 0;
     private int timer = 10;
 
+    private int fenleihao = 0;
 
     // Use this for initialization
     void Start()
@@ -44,6 +53,12 @@ public class gamemanage : MonoBehaviour
         daji.GetComponent<Text>().text = rean._intance.dajihao.ToString();
 
         root = GameObject.Find("Canvas");
+
+        t1 = root.transform.Find("fangkuai").gameObject;
+        t2 = root.transform.Find("caohua").gameObject;
+        t3 = root.transform.Find("hongtao").gameObject;
+        t4 = root.transform.Find("heitao").gameObject;
+        t5 = root.transform.Find("wujiang").gameObject;
 
     }
 
@@ -121,7 +136,7 @@ public class gamemanage : MonoBehaviour
 
         paizhengman.GetComponent<SpriteRenderer>().sprite = rean._intance.play1list[num2].name;
 
-        if (rean._intance.play1list[num2].wangpai == 1)
+        if (rean._intance.play1list[num2].wangpai == 2 || rean._intance.play1list[num2].wangpai == 3)
         {
             JiaoZhuButton(rean._intance.play1list[num2].fenlei);
         }
@@ -155,19 +170,18 @@ public class gamemanage : MonoBehaviour
     {
         num2--;
 
-        print("num2 : " + num2);
-
         if (num2 < 0)
         {
             num2 = 0;
         }
 
-        rean._intance.PaiXu();
+        rean._intance.PaiXu(fenleihao, zhujiaopai.GetComponent<SpriteRenderer>().sprite);
 
         Vector3 t0 = play1zm.position;
 
         paizhengman.GetComponent<SpriteRenderer>().sprite = rean._intance.play1list[num2].name;
 
+        print(rean._intance.play1list[num2].name + " " + rean._intance.play1list[num2].fenlei + " " + rean._intance.play1list[num2].bianhao + " " + rean._intance.play1list[num2].wangpai);
         Vector3 t1 = play1zm.position;
 
         FaPai(t0, t1);
@@ -207,33 +221,30 @@ public class gamemanage : MonoBehaviour
         switch (num)
         {
             case 1:
-                GameObject t1 = root.transform.Find("fangkuai").gameObject;
+
                 t1.SetActive(true);
                 break;
             case 2:
-                GameObject t2 = root.transform.Find("caohua").gameObject;
+
                 t2.SetActive(true);
                 break;
             case 3:
-                GameObject t3 = root.transform.Find("hongtao").gameObject;
+
                 t3.SetActive(true);
                 break;
             case 4:
-                GameObject t4 = root.transform.Find("heitao").gameObject;
+
                 t4.SetActive(true);
                 break;
             case 5:
-                GameObject t5 = root.transform.Find("wujiang").gameObject;
+
                 t5.SetActive(true);
                 break;
         }
     }
 
 
-    public void FangKuaiButton() { 
-    
-    }
-
+ 
 
 
     void JiShiQi()
@@ -248,4 +259,60 @@ public class gamemanage : MonoBehaviour
         }
 
     }
+
+    public void FangKuaiButton()
+    {
+
+        fenleihao = 1;
+        zhujiaopai.SetActive(true);
+        zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2];
+
+        t1.SetActive(false);
+        t2.SetActive(false);
+        t3.SetActive(false);
+        t4.SetActive(false);
+        t5.SetActive(false);
+    }
+
+    public void CaoHuaButton()
+    {
+        fenleihao = 2;
+        zhujiaopai.SetActive(true);
+        zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2+13];
+
+        t1.SetActive(false);
+        t2.SetActive(false);
+        t3.SetActive(false);
+        t4.SetActive(false);
+        t5.SetActive(false);
+    }
+
+    public void HongTaoButton()
+    {
+        fenleihao = 3;
+       
+        zhujiaopai.SetActive(true);
+        zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2+13+13];
+
+        t1.SetActive(false);
+        t2.SetActive(false);
+        t3.SetActive(false);
+        t4.SetActive(false);
+        t5.SetActive(false);
+    }
+
+    public void HeiTaoButton()
+    {
+        fenleihao = 4;
+        zhujiaopai.SetActive(true);
+        zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2+13+13+13];
+
+        t1.SetActive(false);
+        t2.SetActive(false);
+        t3.SetActive(false);
+        t4.SetActive(false);
+        t5.SetActive(false);
+    }
+
+
 }

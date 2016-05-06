@@ -29,7 +29,7 @@ public class rean : MonoBehaviour
     void Start()
     {
         PaiName();
-       
+
     }
 
     void PaiName()
@@ -42,7 +42,7 @@ public class rean : MonoBehaviour
                 num++;
                 if (num == 5)
                 {
-                    x = 1;
+                    x = 3;
                 }
             }
             paijihe1.Add(new pai() { name = item, fenlei = num, bianhao = i, wangpai = x });
@@ -145,31 +145,50 @@ public class rean : MonoBehaviour
 
     }
 
-   public void PaiXu()
+    public void PaiXu(int fenlei,Sprite name)
     {
-
-        //LIST SORT 多重排序,按王，分类，编号
-       play1list.Sort(delegate(pai x, pai y)
+        foreach (var item in play1list)
         {
-            int a = y.wangpai.CompareTo(x.wangpai);
-            if (a==0)
+            if (item.fenlei == fenlei)
             {
-                a = y.fenlei.CompareTo(x.fenlei);
-                if (a==0)
+                if (item.name!=name)
                 {
-                    a = y.bianhao.CompareTo(x.bianhao);
+                    item.wangpai = 1;
                 }
+                else
+                {
+                    item.wangpai = 3;
+                }
+                    
+   
             }
-            return a;
-        });
+        }
+        //LIST SORT 多重排序,按王，分类，编号
+        play1list.Sort(delegate(pai x, pai y)
+         {
+             int a = y.wangpai.CompareTo(x.wangpai);
+             if (a == 0)
+             {
+                 a = y.fenlei.CompareTo(x.fenlei);
+                 if (a == 0)
+                 {
+                     a = y.bianhao.CompareTo(x.bianhao);
+                 }
+             }
+             return a;
+         });
     }
 
-    void JiaoZhuPai(int num ) {
-        
-        paijihe1[num-2].wangpai = 1;
-        paijihe1[num+13 - 2].wangpai = 1;
-        paijihe1[num+13+13 - 2].wangpai = 1;
-        paijihe1[num+13+13+13 - 2].wangpai = 1;
+    void JiaoZhuPai(int num)
+    {
 
+        paijihe1[num - 2].wangpai = 2;
+       
+        paijihe1[num + 13 - 2].wangpai = 2;
+       
+        paijihe1[num + 13 + 13 - 2].wangpai = 2;
+       
+        paijihe1[num + 13 + 13 + 13 - 2].wangpai = 2;
+        
     }
 }
