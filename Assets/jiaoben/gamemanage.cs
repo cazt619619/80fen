@@ -36,6 +36,7 @@ public class gamemanage : MonoBehaviour
     private bool kaiguan1 = false;
     private bool kaiguan2 = false;
     private bool kaiguan3 = false;
+    private bool kaiguan4 = false;
 
     private int num = 0;
     private int num1 = 0;
@@ -45,6 +46,7 @@ public class gamemanage : MonoBehaviour
 
     private int fenleihao = 0;
 
+    private List<int> jiaozhuyong=new List<int>();
     // Use this for initialization
     void Start()
     {
@@ -135,11 +137,35 @@ public class gamemanage : MonoBehaviour
         Vector3 t0 = new Vector3(0, 0, 0);
 
         paizhengman.GetComponent<SpriteRenderer>().sprite = rean._intance.play1list[num2].name;
-
-        if (rean._intance.play1list[num2].wangpai == 2 || rean._intance.play1list[num2].wangpai == 3)
+        //叫主方式，第一次可以直接叫主，叫主后，必须有2个一样的花色主牌才可以重叫
+        if (kaiguan4 == true)//通过判断这个位置的牌是否显示为第一次还是第二次
         {
-            JiaoZhuButton(rean._intance.play1list[num2].fenlei);
+            if (rean._intance.play1list[num2].wangpai == 2 || rean._intance.play1list[num2].wangpai == 3)
+            {
+               jiaozhuyong.Add( rean._intance.play1list[num2].fenlei);
+               for (int i = 0; i < jiaozhuyong.Count-1; i++)
+               {
+                   for (int k =i+ 1; k < jiaozhuyong.Count; k++)
+                   {
+                       if (jiaozhuyong[i]==jiaozhuyong[k])
+                       {
+                           JiaoZhuButton(rean._intance.play1list[num2].fenlei);
+                       }
+                   }
+               }
+
+            }
         }
+        else
+        {
+            if (rean._intance.play1list[num2].wangpai == 2 || rean._intance.play1list[num2].wangpai == 3)
+            {
+                JiaoZhuButton(rean._intance.play1list[num2].fenlei);
+                jiaozhuyong.Add(rean._intance.play1list[num2].fenlei);
+            }
+        }
+
+
 
         Vector3 t1 = play1zm.position;
 
@@ -181,7 +207,6 @@ public class gamemanage : MonoBehaviour
 
         paizhengman.GetComponent<SpriteRenderer>().sprite = rean._intance.play1list[num2].name;
 
-        print(rean._intance.play1list[num2].name + " " + rean._intance.play1list[num2].fenlei + " " + rean._intance.play1list[num2].bianhao + " " + rean._intance.play1list[num2].wangpai);
         Vector3 t1 = play1zm.position;
 
         FaPai(t0, t1);
@@ -193,8 +218,6 @@ public class gamemanage : MonoBehaviour
 
     void QinLiZuoMian()
     {
-
-
         foreach (var item in play1pai)
         {
             Destroy(item);
@@ -244,7 +267,7 @@ public class gamemanage : MonoBehaviour
     }
 
 
- 
+
 
 
     void JiShiQi()
@@ -264,7 +287,7 @@ public class gamemanage : MonoBehaviour
     {
 
         fenleihao = 1;
-        zhujiaopai.SetActive(true);
+        zhujiaopai.SetActive(kaiguan4 = true);
         zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2];
 
         t1.SetActive(false);
@@ -277,8 +300,8 @@ public class gamemanage : MonoBehaviour
     public void CaoHuaButton()
     {
         fenleihao = 2;
-        zhujiaopai.SetActive(true);
-        zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2+13];
+        zhujiaopai.SetActive(kaiguan4 = true);
+        zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2 + 13];
 
         t1.SetActive(false);
         t2.SetActive(false);
@@ -290,9 +313,9 @@ public class gamemanage : MonoBehaviour
     public void HongTaoButton()
     {
         fenleihao = 3;
-       
-        zhujiaopai.SetActive(true);
-        zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2+13+13];
+
+        zhujiaopai.SetActive(kaiguan4 = true);
+        zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2 + 13 + 13];
 
         t1.SetActive(false);
         t2.SetActive(false);
@@ -304,8 +327,8 @@ public class gamemanage : MonoBehaviour
     public void HeiTaoButton()
     {
         fenleihao = 4;
-        zhujiaopai.SetActive(true);
-        zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2+13+13+13];
+        zhujiaopai.SetActive(kaiguan4 = true);
+        zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2 + 13 + 13 + 13];
 
         t1.SetActive(false);
         t2.SetActive(false);
@@ -314,5 +337,7 @@ public class gamemanage : MonoBehaviour
         t5.SetActive(false);
     }
 
-
+    public void ChuPai() {
+        print(paizhengman.GetComponent<SpriteRenderer>().sprite.ToString());
+    }
 }
