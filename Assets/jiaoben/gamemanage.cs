@@ -46,7 +46,9 @@ public class gamemanage : MonoBehaviour
 
     private int fenleihao = 0;
 
-    private List<int> jiaozhuyong=new List<int>();
+    private string player;
+
+    private List<int> jiaozhuyong = new List<int>();
     // Use this for initialization
     void Start()
     {
@@ -142,17 +144,17 @@ public class gamemanage : MonoBehaviour
         {
             if (rean._intance.play1list[num2].wangpai == 2 || rean._intance.play1list[num2].wangpai == 3)
             {
-               jiaozhuyong.Add( rean._intance.play1list[num2].fenlei);
-               for (int i = 0; i < jiaozhuyong.Count-1; i++)
-               {
-                   for (int k =i+ 1; k < jiaozhuyong.Count; k++)
-                   {
-                       if (jiaozhuyong[i]==jiaozhuyong[k])
-                       {
-                           JiaoZhuButton(rean._intance.play1list[num2].fenlei);
-                       }
-                   }
-               }
+                jiaozhuyong.Add(rean._intance.play1list[num2].fenlei);
+                for (int i = 0; i < jiaozhuyong.Count - 1; i++)
+                {
+                    for (int k = i + 1; k < jiaozhuyong.Count; k++)
+                    {
+                        if (jiaozhuyong[i] == jiaozhuyong[k])
+                        {
+                            JiaoZhuButton(rean._intance.play1list[num2].fenlei);
+                        }
+                    }
+                }
 
             }
         }
@@ -226,17 +228,33 @@ public class gamemanage : MonoBehaviour
         Destroy(GameObject.Find("liudi"));
     }
 
-    void LiuDi()
+    //传递一个谁主叫的人
+    void LiuDi(string player)
     {
-
         Transform liudi = GameObject.Find("liudi").transform;
 
-        for (int i = 0; i < dipaidian.Length; i++)
+        if (player == "play1")
         {
-            paizhengman.GetComponent<SpriteRenderer>().sprite = rean._intance.dipailist[i].name;
-            GameObject dipai = GameObject.Instantiate(paizhengman, dipaidian[i].position, Quaternion.identity) as GameObject;
-            dipai.transform.SetParent(liudi);
+            for (int i = 0; i < dipaidian.Length; i++)
+            {
+                paizhengman.GetComponent<SpriteRenderer>().sprite = rean._intance.dipailist[i].name;
+                GameObject dipai = GameObject.Instantiate(paizhengman, dipaidian[i].position, Quaternion.identity) as GameObject;
+                dipai.transform.SetParent(liudi);
+                rean._intance.play1list.Add(rean._intance.dipailist[i]);
+            }
+
         }
+
+        if (player == "play2")
+        {
+            print("ai" + player);
+        }
+
+        num2 = rean._intance.play1list.Count;
+        //玩家没有叫就显示牌背
+        GameObject root = GameObject.Find("liudi");
+        GameObject dipaibeimian = root.transform.Find("dingwei").gameObject;
+        dipaibeimian.SetActive(true);
     }
 
     void JiaoZhuButton(int num)
@@ -269,16 +287,21 @@ public class gamemanage : MonoBehaviour
 
 
 
-
+    //倒计时用的
     void JiShiQi()
     {
         numtime++;
         paibei.SetActive(false);
         if (numtime % 60 == 0)
         {
+            if (timer == 10)
+            {
+                LiuDi(player);
+            }
             timer--;
             daojishi.GetComponent<Text>().text = timer.ToString();
-            LiuDi();
+
+
         }
 
     }
@@ -289,6 +312,7 @@ public class gamemanage : MonoBehaviour
         fenleihao = 1;
         zhujiaopai.SetActive(kaiguan4 = true);
         zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2];
+        player = "play1";
 
         t1.SetActive(false);
         t2.SetActive(false);
@@ -302,6 +326,7 @@ public class gamemanage : MonoBehaviour
         fenleihao = 2;
         zhujiaopai.SetActive(kaiguan4 = true);
         zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2 + 13];
+        player = "play1";
 
         t1.SetActive(false);
         t2.SetActive(false);
@@ -316,6 +341,7 @@ public class gamemanage : MonoBehaviour
 
         zhujiaopai.SetActive(kaiguan4 = true);
         zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2 + 13 + 13];
+        player = "play1";
 
         t1.SetActive(false);
         t2.SetActive(false);
@@ -329,6 +355,7 @@ public class gamemanage : MonoBehaviour
         fenleihao = 4;
         zhujiaopai.SetActive(kaiguan4 = true);
         zhujiaopai.GetComponent<SpriteRenderer>().sprite = rean._intance.spritepai[rean._intance.dajihao - 2 + 13 + 13 + 13];
+        player = "play1";
 
         t1.SetActive(false);
         t2.SetActive(false);
@@ -337,7 +364,8 @@ public class gamemanage : MonoBehaviour
         t5.SetActive(false);
     }
 
-    public void ChuPai() {
+    public void ChuPai()
+    {
         print(paizhengman.GetComponent<SpriteRenderer>().sprite.ToString());
     }
 }
