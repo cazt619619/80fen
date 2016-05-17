@@ -117,6 +117,7 @@ public class gamemanage : MonoBehaviour
             }
 
         }
+        
     }
 
     public void KaiShi()
@@ -242,7 +243,7 @@ public class gamemanage : MonoBehaviour
                 dipai.transform.SetParent(liudi);
                 rean._intance.play1list.Add(rean._intance.dipailist[i]);
             }
-
+            
         }
 
         if (player == "play2")
@@ -363,9 +364,5 @@ public class gamemanage : MonoBehaviour
         t4.SetActive(false);
         t5.SetActive(false);
     }
-
-    public void ChuPai()
-    {
-        print(paizhengman.GetComponent<SpriteRenderer>().sprite.ToString());
-    }
+    
 }

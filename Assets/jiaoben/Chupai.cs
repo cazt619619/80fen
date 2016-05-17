@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Chupai : MonoBehaviour
 {
     //层级数
     int targetMask;
+    private List<Sprite> spritename = new List<Sprite>();
 
     // Use this for initialization
     void Start()
@@ -31,16 +33,24 @@ public class Chupai : MonoBehaviour
                 if (hitInfo.transform.position.y == -3.25f)
                 {
                     hitInfo.transform.position = new Vector3(hitInfo.transform.position.x, -3.0f, hitInfo.transform.position.z);
+                    spritename.Add(hitInfo.transform.GetComponent<SpriteRenderer>().sprite);
                 }
                 else
                 {
                     hitInfo.transform.position = new Vector3(hitInfo.transform.position.x, -3.25f, hitInfo.transform.position.z);
+                    spritename.Remove(hitInfo.transform.GetComponent<SpriteRenderer>().sprite);
                 }
-
-                print(hitInfo.transform.GetComponent<SpriteRenderer>().sprite.ToString());
-
             }
         }
 
     }
+
+    public void MieDiPai() {
+        foreach (var item in spritename)
+        {
+            print(item);
+        }
+    
+    }
+
 }
